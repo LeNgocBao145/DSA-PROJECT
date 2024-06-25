@@ -15,6 +15,6 @@ void shakerSort(int* arr, int n);
 //mỗi lần chia thì gap /= 2 và sort bằng insertion sort
 void shellSort(int* arr, int n);
 
-void radixSort(int arr, int n);
+void radixSort(int* arr, int n);
 
 

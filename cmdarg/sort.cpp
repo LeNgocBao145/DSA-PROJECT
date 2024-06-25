@@ -29,3 +29,27 @@ void shakerSort(int arr[], int n)
         tail--;
     }
 }
+
+void shellSort(int arr[], int n)
+{
+    int gap = n / 2;
+
+    while(gap != 0)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            int index = i;
+            int temp = arr[i];
+            while(temp < arr[index - gap] && index - gap >= 0)
+            {
+                arr[index] = arr[index - gap];
+                index -= gap;
+            }
+
+            arr[index] = temp;
+        }
+
+
+        gap /= 2;
+    } 
+}

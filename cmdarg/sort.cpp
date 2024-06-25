@@ -167,8 +167,6 @@ void shellSort(int* arr, int n)
     } 
 }
 
-
-
 int* countingSort(int* arr, int n, int& comparision, double& time) {
     int max = arr[0];
     int min = arr[0];

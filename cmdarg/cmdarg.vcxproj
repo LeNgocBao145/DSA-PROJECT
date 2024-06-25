@@ -127,6 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="heap.cpp" />
+    <ClCompile Include="heap.h" />
+    <ClCompile Include="merge.cpp" />
+    <ClCompile Include="merge.h" />
+    <ClCompile Include="quick.cpp" />
+    <ClCompile Include="quick.h" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

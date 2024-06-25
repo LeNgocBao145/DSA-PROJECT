@@ -314,3 +314,133 @@ int* flashSort(int* arr, int n, int& comparision, double& time) {
     buckets = NULL;
 }
 
+void radixSort(int *arr, int n)
+{
+    //Tìm phần tử lớn nhất
+    int max = arr[0];
+    int min = arr[0];
+    for(int i = 0; i < n; i++)
+    {
+        if(max < arr[i])
+        {
+            max = arr[i];
+        }else if(min > arr[i]){
+            min = arr[i];
+        }
+    }
+
+    int countPos = 0;
+    int countNeg = 0;
+    int* negatives = new int[n];
+    int* positives = new int[n];
+
+    for(int i = 0; i < n; i++)
+    {
+        if(arr[i] < 0)
+        {
+            negatives[countNeg++] = abs(arr[i]);
+        }else
+        {
+            positives[countPos++] = arr[i];
+        }
+    }
+    
+    int divid = 1;
+
+    if(countNeg != 0)
+    {
+        while(abs(min) / divid > 0)
+        {
+
+            int *ans = new int[countNeg];
+            int exist[10] = {0};
+
+            for(int i = 0; i < countNeg; i++)
+            {
+                int index = (negatives[i] / divid) % 10;
+                exist[index]++;
+            }
+
+            //Tính mảng cộng dồn để đếm số phần tử xuất hiện và vị trí của chúng
+            for(int i = 1; i < 10; i++)
+            {
+                exist[i] += exist[i - 1];
+            }
+
+
+            //Gán và sắp xếp các phần tử vào mảng phụ
+            for(int i = countNeg - 1; i >= 0; i--)
+            {
+                int index = (negatives[i] / divid) % 10;
+                ans[exist[index] - 1] = negatives[i];
+                exist[index]--;
+            }
+
+            //Gán phần tử kết quả vào mảng chính
+            int index = 0;
+
+            for(int i = 0; i < countNeg; i++)
+            {
+                negatives[i] = ans[i]; 
+            }
+
+            divid *= 10;
+            delete[] ans;
+        }
+    }
+
+    divid = 1;
+
+    if(countPos > 0)
+    {
+        while(max / divid > 0)
+        {
+
+            int *ans = new int[countPos];
+            int exist[10] = {0};
+
+            for(int i = 0; i < countPos; i++)
+            {
+                int index = (positives[i] / divid) % 10;
+                exist[index]++;
+            }
+
+            //Tính mảng cộng dồn để đếm số phần tử xuất hiện và vị trí của chúng
+            for(int i = 1; i < 10; i++)
+            {
+                exist[i] += exist[i - 1];
+            }
+
+
+            //Gán và sắp xếp các phần tử vào mảng phụ
+            for(int i = countPos - 1; i >= 0; i--)
+            {
+                int index = (positives[i] / divid) % 10;
+                ans[exist[index] - 1] = positives[i];
+                exist[index]--;
+            }
+
+            //Gán phần tử kết quả vào mảng chính
+            for(int i = 0; i < countPos; i++)
+            {
+                positives[i] = ans[i]; 
+            }
+
+            divid *= 10;
+            delete[] ans;
+        }
+    }
+
+    int index = 0;
+
+    for(int i = countNeg - 1; i >= 0; i--)
+    {
+        arr[index] = (-1) * negatives[i];
+        index++;
+    }
+
+    for(int i = 0; i < countPos; i++)
+    {
+        arr[countNeg + i] = positives[i];
+    }
+}

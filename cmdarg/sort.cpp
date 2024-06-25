@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void shakerSort(int arr[], int n)
+void shakerSort(int* arr[], int n)
 {
     int head = 0;
     int tail = n - 1;
@@ -30,7 +30,7 @@ void shakerSort(int arr[], int n)
     }
 }
 
-void shellSort(int arr[], int n)
+void shellSort(int* arr[], int n)
 {
     int gap = n / 2;
 

@@ -16,4 +16,5 @@ void shakerSort(int arr[], int n);
 void shellSort(int arr[], int n);
 
 int* countingSort(int* arr, int n, int& comparision, double& time);
+int* flashSort(int* arr, int n, int& comparision, double& time);
 #endif

@@ -219,3 +219,98 @@ int* countingSort(int* arr, int n, int& comparision, double& time) {
     return res;
 }
 
+// This part is for flash sort
+int get_bucket_id(int value, int n_buckets,
+    int min, int max) {
+    return ((n_buckets - 1) * (int)((value - min) / (max - min)));
+}
+int find_swap_index(int* arr, int* buckets, int n_buckets,
+    int min, int max, int b_id) {
+    int i = 0;
+    for (i = buckets[b_id - 1]; i < buckets[b_id]; i++) {
+        if (get_bucket_id(arr[i], n_buckets, min, max) != b_id) {
+            break;
+        }
+    }
+
+    return i;
+}
+void arrange_bucket(int* arr, int* buckets, int left, int right, int b,
+    int max, int min, int n_buckets) {
+
+
+    for (int i = left; i < right; i++) {
+        int b_id = get_bucket_id(arr[i], n_buckets, min, max);
+        while (b != b_id) {
+            int swap_index = find_swap_index(arr, buckets, n_buckets, min, max, b_id);
+            int temp = arr[i];
+            arr[i] = arr[swap_index];
+            arr[swap_index] = temp;
+            b_id = get_bucket_id(arr[i], n_buckets, min, max);
+        }
+
+    }
+}
+
+void insertion_sort(int*& arr, int left, int right) {
+    for (int i = left + 1; i < right; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && key < arr[j]) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+
+int* flashSort(int* arr, int n, int& comparision, double& time) {
+    int max = arr[0];
+    int min = arr[0];
+
+    for (int i = 0; i < n; i++) {
+        if (max < arr[i])
+            max = arr[i];
+        if (min > arr[i])
+            min = arr[i];
+    }
+
+    int n_buckets = (int)(0.45 * n);
+    if (n_buckets <= 1) n_buckets = 1;
+
+    int* buckets = new int[n_buckets];
+    for (int i = 0; i < n_buckets; i++) {
+        buckets[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        buckets[get_bucket_id(arr[i], n_buckets, min, max)]++;
+    }
+
+    for (int i = 1; i < n_buckets; i++) {
+        buckets[i] += buckets[i - 1];
+    }
+
+    for (int b = 0; b < n_buckets - 1; b++) {
+        if (b == 0) {
+            arrange_bucket(arr, buckets, 0, buckets[0], 0, max, min, n_buckets);
+        }
+        else {
+            arrange_bucket(arr, buckets, buckets[b - 1], buckets[b], b, max, min, n_buckets);
+        }
+    }
+
+    for (int b = 0; b < n_buckets; b++) {
+        if (b == 0) {
+            insertion_sort(arr, 0, buckets[0]);
+        }
+        else {
+            insertion_sort(arr, buckets[b - 1], buckets[b]);
+        }
+    }
+
+    delete[] buckets;
+    buckets = NULL;
+}
+

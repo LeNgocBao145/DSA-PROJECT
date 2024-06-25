@@ -143,7 +143,7 @@ void shakerSort(int* arr[], int n)
     }
 }
 
-void shellSort(int* arr[], int n)
+void shellSort(int* arr, int n)
 {
     int gap = n / 2;
 

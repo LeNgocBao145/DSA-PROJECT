@@ -115,7 +115,7 @@ void quickSort(int* arr, int left, int right, int& comparision) {
 }
 
 
-void shakerSort(int* arr[], int n)
+void shakerSort(int* arr, int n)
 {
     int head = 0;
     int tail = n - 1;
@@ -143,7 +143,7 @@ void shakerSort(int* arr[], int n)
     }
 }
 
-void shellSort(int* arr[], int n)
+void shellSort(int* arr, int n)
 {
     int gap = n / 2;
 
@@ -166,4 +166,6 @@ void shellSort(int* arr[], int n)
         gap /= 2;
     } 
 }
+
+
 

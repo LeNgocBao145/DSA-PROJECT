@@ -14,4 +14,6 @@ void shakerSort(int arr[], int n);
 //Thuật toán shell sort sử dụng gap là n/2 cho mỗi bước sort để chia thành nhiều sub - arrays nhỏ qua 
 //mỗi lần chia thì gap /= 2 và sort bằng insertion sort
 void shellSort(int arr[], int n);
+
+int* countingSort(int* arr, int n, int& comparision, double& time);
 #endif

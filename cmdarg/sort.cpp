@@ -167,3 +167,55 @@ void shellSort(int arr[], int n)
     } 
 }
 
+int* countingSort(int* arr, int n, int& comparision, double& time) {
+    int max = arr[0];
+    int min = arr[0];
+    int* res = new int[n];
+    for (int i = 0; i < n; i++) {
+        if (max < arr[i])
+            max = arr[i];
+        if (min > arr[i])
+            min = arr[i];
+    }
+
+    if (min < 0) {
+        for (int i = 0; i < n; i++) {
+            arr[i] += -min;
+        }
+        max = arr[0];
+        for (int i = 0; i < n; i++) {
+            if (max < arr[i])
+                max = arr[i];
+        }
+    }
+
+    int* count = new int[max + 1];
+    for (int i = 0; i < max + 1; i++) {
+        count[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        count[arr[i]]++;
+    }
+
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+        res[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+    }
+
+    if (min < 0) {
+        for (int i = 0; i < n; i++) {
+            res[i] += min;
+        }
+    }
+
+    delete[] count;
+    count = NULL;
+
+    return res;
+}
+

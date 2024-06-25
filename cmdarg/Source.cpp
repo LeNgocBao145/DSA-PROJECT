@@ -270,7 +270,6 @@ int main(int argc, char** argv) {
 
 					cout << "Input size: " << input_size << endl;
 					
-					
 					if (valid_file) {
 						sort(arr, input_size, algorithm_1_choice, comp1, time1);
 						delete[] arr;

@@ -3,9 +3,7 @@
 #include <fstream>
 #include <cctype>
 #include <chrono>
-#include "heap.h"
-#include "merge.h"
-#include "quick.h"
+#include "sort.h"
 using namespace std;
 
 void sort(int* arr, int n, int choice, int& comparision, double& time);

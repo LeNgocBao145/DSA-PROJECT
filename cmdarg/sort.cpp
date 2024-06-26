@@ -115,24 +115,26 @@ void quickSort(int* arr, int left, int right, int& comparision) {
 }
 
 
-void shakerSort(int* arr[], int n)
+void shakerSort(int* arr, int n, int &comparision)
 {
+    comparision = 0;
+
     int head = 0;
     int tail = n - 1;
 
-    while(head < tail)
+    while(++comparision && (head < tail))
     {
-        for(int i = head; i < tail; i++)
+        for(int i = head; ++comparision && (i < tail); i++)
         {
-            if(arr[i] > arr[i + 1])
+            if(++comparision && (arr[i] > arr[i + 1]))
             {
                 swap(arr[i], arr[i + 1]);
             }
         }
 
-        for(int i = tail - 1; i > head; i--)
+        for(int i = tail - 1; ++comparision && (i > head); i--)
         {
-            if(arr[i] < arr[i - 1])
+            if(++comparision && (arr[i] < arr[i - 1]))
             {
                 swap(arr[i], arr[i - 1]);
             }
@@ -143,17 +145,19 @@ void shakerSort(int* arr[], int n)
     }
 }
 
-void shellSort(int* arr, int n)
+void shellSort(int* arr, int n, int &comparision)
 {
+    comparision = 0;
+
     int gap = n / 2;
 
-    while(gap != 0)
+    while(++comparision && gap != 0)
     {
-        for(int i = 0; i < n; i++)
+        for(int i = 0; ++comparision && (i < n); i++)
         {
             int index = i;
             int temp = arr[i];
-            while(temp < arr[index - gap] && index - gap >= 0)
+            while(++comparision && temp < arr[index - gap] && index - gap >= 0)
             {
                 arr[index] = arr[index - gap];
                 index -= gap;
@@ -314,3 +318,141 @@ int* flashSort(int* arr, int n, int& comparision, double& time) {
     buckets = NULL;
 }
 
+void radixSort(int *arr, int n, int &comparision)
+{
+    comparision = 0;
+
+    //Tìm phần tử lớn nhất
+    int max = arr[0];
+    int min = arr[0];
+    for(int i = 0; ++comparision && (i < n); i++)
+    {
+        if(++comparision && (max < arr[i]))
+        {
+            max = arr[i];
+        }else if(++comparision && (min > arr[i])){
+            min = arr[i];
+        }
+    }
+
+    int countPos = 0;
+    int countNeg = 0;
+    int* negatives = new int[n];
+    int* positives = new int[n];
+
+    for(int i = 0; ++comparision && (i < n); i++)
+    {
+        if(++comparision && arr[i] < 0)
+        {
+            negatives[countNeg++] = abs(arr[i]);
+        }else
+        {
+            positives[countPos++] = arr[i];
+        }
+    }
+    
+    int divid = 1;
+
+    if(++comparision && countNeg != 0)
+    {
+        while(++comparision && abs(min) / divid > 0)
+        {
+
+            int *ans = new int[countNeg];
+            int exist[10] = {0};
+
+            for(int i = 0; ++comparision && i < countNeg; i++)
+            {
+                int index = (negatives[i] / divid) % 10;
+                exist[index]++;
+            }
+
+            //Tính mảng cộng dồn để đếm số phần tử xuất hiện và vị trí của chúng
+            for(int i = 1; ++comparision && i < 10; i++)
+            {
+                exist[i] += exist[i - 1];
+            }
+
+
+            //Gán và sắp xếp các phần tử vào mảng phụ
+            for(int i = countNeg - 1; ++comparision && i >= 0; i--)
+            {
+                int index = (negatives[i] / divid) % 10;
+                ans[exist[index] - 1] = negatives[i];
+                exist[index]--;
+            }
+
+            //Gán phần tử kết quả vào mảng chính
+            int index = 0;
+
+            for(int i = 0; ++comparision && i < countNeg; i++)
+            {
+                negatives[i] = ans[i]; 
+            }
+
+            divid *= 10;
+            delete[] ans;
+        }
+    }
+
+    divid = 1;
+
+    if(++comparision && countPos > 0)
+    {
+        while(++comparision && max / divid > 0)
+        {
+
+            int *ans = new int[countPos];
+            int exist[10] = {0};
+
+            for(int i = 0; ++comparision && i < countPos; i++)
+            {
+                int index = (positives[i] / divid) % 10;
+                exist[index]++;
+            }
+
+            //Tính mảng cộng dồn để đếm số phần tử xuất hiện và vị trí của chúng
+            for(int i = 1; ++comparision && i < 10; i++)
+            {
+                exist[i] += exist[i - 1];
+            }
+
+
+            //Gán và sắp xếp các phần tử vào mảng phụ
+            for(int i = countPos - 1; ++comparision && i >= 0; i--)
+            {
+                int index = (positives[i] / divid) % 10;
+                ans[exist[index] - 1] = positives[i];
+                exist[index]--;
+            }
+
+            //Gán phần tử kết quả vào mảng chính
+            for(int i = 0; ++comparision && i < countPos; i++)
+            {
+                positives[i] = ans[i]; 
+            }
+
+            divid *= 10;
+            delete[] ans;
+        }
+    }
+
+    int index = 0;
+
+    if(++comparision && countNeg != 0)
+    {
+        for(int i = countNeg - 1; ++comparision && i >= 0; i--)
+        {
+            arr[index] = (-1) * negatives[i];
+            index++;
+        }
+    }
+
+    if(++comparision && countPos != 0)
+    {
+        for(int i = 0; ++comparision && i < countPos; i++)
+        {
+            arr[countNeg + i] = positives[i];
+        }
+    }
+}

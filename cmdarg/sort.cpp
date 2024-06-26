@@ -3,6 +3,28 @@
 #include "sort.h"
 using namespace std;
 
+// Bubble sort.
+void bubbleSort(int *arr, int size) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size - i - 1; ++j) {
+            if (arr[j] > arr[j + 1])
+                swap(arr[j], arr[j + 1]);
+        }
+    }
+}
+
+// Selection sort.
+void selectionSort(int *arr, int size) {
+    for (int i = 0; i < size - 1; ++i) {
+        int min_index = i;
+        for (int j = i + 1; j < size; ++j) {
+            if (arr[j] < arr[min_index])
+                min_index = j;
+        }
+        swap(arr[i], arr[min_index]);
+    }
+}
+
 void heapify(int* arr, int n, int i, int& comparision) {
     int largest = i;
     int left = 2 * i + 1;
